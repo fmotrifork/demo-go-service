@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: demo-go-service
+  description: My new go demo service
+  annotations: 
+    github.com/project-slug: fmotrifork/demo-go-service
+    backstage.io/source-ref: "https://github.com/fmotrifork/demo-go-service"
+    backstage.io/techdocs-ref: url:https://github.com/fmotrifork/demo-go-service
+    backstage.io/github-actions-id: https://github.com/fmotrifork/demo-go-service
+spec:
+  type: service
+  lifecycle: experimental
+  owner: fmotrifork
