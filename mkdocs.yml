@@ -1,0 +1,7 @@
+site_name: 'Demo-go-docs'
+
+nav:
+  - Home: index.md
+
+plugins:
+  - techdocs-core
