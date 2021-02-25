@@ -26,7 +26,7 @@ help:
 build:
 	@echo "building ${BIN_NAME} ${VERSION}"
 	@echo "GOPATH=${GOPATH}"
-	go build -ldflags "-X github.com/backstage/demo-go-service/version.GitCommit=${GIT_COMMIT}${GIT_DIRTY} -X github.com/backstage/demo-go-service/version.BuildDate=${BUILD_DATE}" -o bin/${BIN_NAME}
+	go build -ldflags "-X github.com/fmotrifork/demo-go-service/version.GitCommit=${GIT_COMMIT}${GIT_DIRTY} -X github.com/fmotrifork/demo-go-service/version.BuildDate=${BUILD_DATE}" -o bin/${BIN_NAME}
 
 get-deps:
 	dep ensure

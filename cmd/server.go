@@ -71,7 +71,9 @@ to quickly create a Cobra application.`,
 			panic("server panic")
 		})
 
-		http.ListenAndServe("localhost:3333", r)
+		address := "localhost:3333"
+		log.Printf("Starting webserver on: %s", address)
+		http.ListenAndServe(address, r)
 	},
 }
 

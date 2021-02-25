@@ -2,6 +2,8 @@ site_name: 'Demo-go-docs'
 
 nav:
   - Home: index.md
+  - Building: build.md
+  - Commandline Interface: cli.md
 
 plugins:
   - techdocs-core

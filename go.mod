@@ -1,4 +1,4 @@
-module github.com/backstage/demo-go-service
+module github.com/fmotrifork/demo-go-service
 
 go 1.15
 

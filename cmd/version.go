@@ -2,7 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/backstage/demo-go-service/version"
+
+	"github.com/fmotrifork/demo-go-service/version"
 	"github.com/spf13/cobra"
 )
 
