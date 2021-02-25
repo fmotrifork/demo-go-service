@@ -29,3 +29,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONARCLOUD_URL: ${{ secrets.SONARCLOUD_URL }}
+        with:
+          args: >
+            -Dsonar.projectKey=demo-go-service
+            -Dsonar.exclusions=**/*_test.go
+            -Dsonar.projectName=Demo go Service
