@@ -31,4 +31,4 @@ jobs:
           SONARCLOUD_URL: ${{ secrets.SONARCLOUD_URL }}
         with:
           args: >
-            -Dsonar.projectKey=demo-go-service
+            -Dsonar.projectKey=fmotrifork_demo-go-service
