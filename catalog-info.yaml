@@ -13,4 +13,4 @@ metadata:
 spec:
   type: service
   lifecycle: experimental
-  owner: fmo@trifork.com
+  owner: user:fmotrifork
