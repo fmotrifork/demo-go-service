@@ -9,6 +9,7 @@ metadata:
     backstage.io/techdocs-ref: url:https://github.com/fmotrifork/demo-go-service
     backstage.io/github-actions-id: https://github.com/fmotrifork/demo-go-service
     sonarqube.org/project-key: fmotrifork_demo-go-service
+    sentry.io/project-slug: demo-go-service
 spec:
   type: service
   lifecycle: experimental
