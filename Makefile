@@ -37,3 +37,5 @@ clean:
 test:
 	go test ./...
 
+generate-swagger:
+	swag init -g cmd/server.go -o swaggerdocs

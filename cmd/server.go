@@ -1,18 +1,3 @@
-/*
-Copyright © 2021 NAME HERE <EMAIL ADDRESS>
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
 package cmd
 
 import (
@@ -21,6 +6,12 @@ import (
 	"net/http"
 	"time"
 
+	httpSwagger "github.com/swaggo/http-swagger"
+
+	// Load auto generated swagger docs
+	_ "github.com/fmotrifork/demo-go-service/swaggerdocs"
+
+	"github.com/fmotrifork/demo-go-service/utils"
 	"github.com/getsentry/sentry-go"
 	sentryhttp "github.com/getsentry/sentry-go/http"
 	"github.com/go-chi/chi"
@@ -60,20 +51,15 @@ to quickly create a Cobra application.`,
 		// Repanic: true).
 		r.Use(sentryMiddleware.Handle)
 
-		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("root."))
-		})
-		r.Get("/error", func(w http.ResponseWriter, r *http.Request) {
-			hub := sentry.GetHubFromContext(r.Context())
-			hub.CaptureException(errors.New("test error"))
-		})
-		r.Get("/panic", func(w http.ResponseWriter, r *http.Request) {
-			panic("server panic")
-		})
+		r.Mount("/swagger", httpSwagger.WrapHandler)
+		r.Get("/", RootHandler)
+		r.Get("/error", ErrorHandler)
+		r.Get("/panic", PanicHandler)
 
 		address := "localhost:3333"
 		log.Printf("Starting webserver on: %s", address)
-		http.ListenAndServe(address, r)
+		err = http.ListenAndServe(address, r)
+		log.Printf("Serving err: %s", err)
 	},
 }
 
@@ -89,4 +75,54 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// serverCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+}
+
+type response struct {
+	Message    string `example:"All is good"`
+	StatusCode int    `example:"200"`
+}
+
+// RootHandler - Returns all the available APIs
+// @Summary This API can be used as health check for this application.
+// @Description Tells if the chi-swagger APIs are working or not.
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} response "api response"
+// @Router / [get]
+func RootHandler(w http.ResponseWriter, r *http.Request) {
+	utils.WriteResponse(w, utils.SuccessResponse, &response{
+		Message:    "Working OK",
+		StatusCode: 200,
+	})
+}
+
+// ErrorHandler - Always return errors. ;)
+// @Summary This API always returns an error, and sends an error report to Sentry.io
+// @Description
+// @Tags error
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} response "api response"
+// @Failure 500 {object} utils.ErrorResponseModel "api response"
+// @Router /error [get]
+func ErrorHandler(w http.ResponseWriter, r *http.Request) {
+	err := errors.New("Internal Server Error")
+
+	hub := sentry.GetHubFromContext(r.Context())
+	hub.CaptureException(err)
+
+	utils.WriteResponse(w, utils.ErrorResponse, err)
+}
+
+// PanicHandler - Always Panics ! :o
+// @Summary This API always panics, and sends a stack trace to Sentry.io
+// @Description
+// @Tags error
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} response "api response"
+// @Failure 500 {object} utils.ErrorResponseModel "api response"
+// @Router /panic [get]
+func PanicHandler(w http.ResponseWriter, r *http.Request) {
+	panic("server panic")
 }

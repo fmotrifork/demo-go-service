@@ -14,3 +14,125 @@ spec:
   type: service
   lifecycle: experimental
   owner: user:fmotrifork
+  system: demo
+
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: demo-api
+  description: API for demo
+spec:
+  type: openapi
+  lifecycle: production
+  owner: user:fmotrifork
+  system: demo
+  definition: | 
+    {
+        "swagger": "2.0",
+        "info": {
+            "contact": {}
+        },
+        "paths": {
+            "/": {
+                "get": {
+                    "description": "Tells if the chi-swagger APIs are working or not.",
+                    "consumes": [
+                        "application/json"
+                    ],
+                    "produces": [
+                        "application/json"
+                    ],
+                    "summary": "This API can be used as health check for this application.",
+                    "responses": {
+                        "200": {
+                            "description": "api response",
+                            "schema": {
+                                "$ref": "#/definitions/cmd.response"
+                            }
+                        }
+                    }
+                }
+            },
+            "/error": {
+                "get": {
+                    "consumes": [
+                        "application/json"
+                    ],
+                    "produces": [
+                        "application/json"
+                    ],
+                    "tags": [
+                        "error"
+                    ],
+                    "summary": "This API always returns an error, and sends an error report to Sentry.io",
+                    "responses": {
+                        "200": {
+                            "description": "api response",
+                            "schema": {
+                                "$ref": "#/definitions/cmd.response"
+                            }
+                        },
+                        "500": {
+                            "description": "api response",
+                            "schema": {
+                                "$ref": "#/definitions/utils.ErrorResponseModel"
+                            }
+                        }
+                    }
+                }
+            },
+            "/panic": {
+                "get": {
+                    "consumes": [
+                        "application/json"
+                    ],
+                    "produces": [
+                        "application/json"
+                    ],
+                    "tags": [
+                        "error"
+                    ],
+                    "summary": "This API always panics, and sends a stack trace to Sentry.io",
+                    "responses": {
+                        "200": {
+                            "description": "api response",
+                            "schema": {
+                                "$ref": "#/definitions/cmd.response"
+                            }
+                        },
+                        "500": {
+                            "description": "api response",
+                            "schema": {
+                                "$ref": "#/definitions/utils.ErrorResponseModel"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "definitions": {
+            "cmd.response": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "All is good"
+                    },
+                    "statusCode": {
+                        "type": "integer",
+                        "example": 200
+                    }
+                }
+            },
+            "utils.ErrorResponseModel": {
+                "type": "object",
+                "properties": {
+                    "error": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }

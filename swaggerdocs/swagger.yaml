@@ -1,0 +1,68 @@
+definitions:
+  cmd.response:
+    properties:
+      message:
+        example: All is good
+        type: string
+      statusCode:
+        example: 200
+        type: integer
+    type: object
+  utils.ErrorResponseModel:
+    properties:
+      error:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /:
+    get:
+      consumes:
+      - application/json
+      description: Tells if the chi-swagger APIs are working or not.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: api response
+          schema:
+            $ref: '#/definitions/cmd.response'
+      summary: This API can be used as health check for this application.
+  /error:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: api response
+          schema:
+            $ref: '#/definitions/cmd.response'
+        "500":
+          description: api response
+          schema:
+            $ref: '#/definitions/utils.ErrorResponseModel'
+      summary: This API always returns an error, and sends an error report to Sentry.io
+      tags:
+      - error
+  /panic:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: api response
+          schema:
+            $ref: '#/definitions/cmd.response'
+        "500":
+          description: api response
+          schema:
+            $ref: '#/definitions/utils.ErrorResponseModel'
+      summary: This API always panics, and sends a stack trace to Sentry.io
+      tags:
+      - error
+swagger: "2.0"
