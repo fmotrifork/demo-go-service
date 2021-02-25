@@ -33,4 +33,4 @@ jobs:
           args: >
             -Dsonar.projectKey=demo-go-service
             -Dsonar.exclusions=**/*_test.go
-            -Dsonar.projectName=Demo go Service
+            -Dsonar.projectName="Demo go Service"
