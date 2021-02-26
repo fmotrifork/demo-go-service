@@ -10,6 +10,10 @@ metadata:
     backstage.io/github-actions-id: https://github.com/fmotrifork/demo-go-service
     sonarqube.org/project-key: fmotrifork_demo-go-service
     sentry.io/project-slug: demo-go-service
+  links:
+    - url: https://github.com/fmotrifork/demo-go-service
+      title: Github
+      icon: dashboard
   tags:
     - go
     - chi
