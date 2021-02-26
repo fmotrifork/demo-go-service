@@ -10,6 +10,7 @@ import (
 
 	// Load auto generated swagger docs
 	_ "github.com/fmotrifork/demo-go-service/swaggerdocs"
+	"github.com/fmotrifork/demo-go-service/version"
 
 	"github.com/fmotrifork/demo-go-service/utils"
 	"github.com/getsentry/sentry-go"
@@ -31,7 +32,8 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		err := sentry.Init(sentry.ClientOptions{
-			Debug: true,
+			Debug:   true,
+			Release: version.Version,
 		})
 		if err != nil {
 			log.Fatalf("sentry.Init: %s", err)
